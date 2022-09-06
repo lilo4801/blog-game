@@ -106,5 +106,7 @@ class GameController extends Controller
     public function destroy($id)
     {
         //
+        $res = $this->gameService->delete($id);
+        return redirect()->route('games.index')->with('msg',$res['message']);
     }
 }

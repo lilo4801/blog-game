@@ -11,6 +11,13 @@
                         <a href="{{route('games.create')}}" class="btn btn-primary" > Create new game</a>
 
 
+                        @if(session('msg'))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>{{session('msg')}}!</strong>
+                            </div>
+                        @endif
+
                     </div>
                     <div class="card-body">
 
@@ -34,11 +41,14 @@
                                     <td><img src="../image/game/{{$game->image}}" style="width: 100px"></td>
                                     <td>{{$game->admin->fullname}}</td>
                                     <td>
-                                        <form action="{{ route('admin.logout') }}" method="POST" >
-                                            <input type="button" class="btn btn-warning" value="Edit"/>
+                                        <form action="{{ route('games.edit',$game->id) }}" method="GET" >
+                                            @csrf
+                                            <input type="submit" class="btn btn-warning" value="Edit"/>
                                         </form>
-                                        <form action="{{ route('admin.logout') }}" method="POST" >
-                                            <input type="button" class="btn btn-danger" value="Remove"/>
+                                        <form action="{{ route('games.destroy',$game->id) }}" method="post" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" class="btn btn-danger" value="Remove"/>
                                         </form>
 
                                     </td>

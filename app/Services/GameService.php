@@ -24,4 +24,16 @@ class GameService
     public function games() {
         return Game::all();
     }
+    public function delete(int $gameId) : array {
+        try {
+            $game = Game::where('id', $gameId)->delete();
+            if (!$game) {
+                return ['success' => false, 'message' => __('Game not found')];
+            }
+            return ['success' => true, 'message' => __('Game has been deleted')];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => __('Something went wrong')];
+        }
+    }
+
 }
