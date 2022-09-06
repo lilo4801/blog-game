@@ -30,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/admin/home';
 
     /**
      * Create a new controller instance.
@@ -39,26 +39,31 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+     //   $this->middleware('guest')->except('logout');
     }
-
-    public function adminLogin()
+    public function showLoginForm()
     {
         return view('admin.adminLogin');
     }
-
+    public function username()
+    {
+        return 'username';
+    }
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
 
     public function adminLoginPost(Request $request)
     {
-//        $this->validate($request, [
-//            'username' => 'required',
-//            'password' => 'required',
-//        ]);
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
         if (Auth::guard('admin')->attempt(['username' => $request->input('username'), 'password' => $request->input('password')])) {
-            return redirect()->route("home");
+            return redirect()->route("admin.home");
         } else {
-
-            return back()->with('error', 'your username and password are wrong.');
+            return view('admin.adminLogin')->with('error', 'your username and password are wrong.');
         }
     }
 
