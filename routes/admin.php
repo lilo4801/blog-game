@@ -17,6 +17,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware(['admin'])->group(function () {
+        Route::resource('games', \App\Http\Controllers\GameController::class);
         Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
         Route::view('/home', 'admin.home')->name('admin.home');
 
