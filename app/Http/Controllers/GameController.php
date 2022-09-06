@@ -83,6 +83,7 @@ class GameController extends Controller
     public function edit($id)
     {
         //
+        return view('game.edit')->with('game',$this->gameService->find($id));
     }
 
     /**
@@ -95,6 +96,15 @@ class GameController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $image = '';
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('image/game'), $filename);
+            $image= $filename;
+        }
+        $res = $this->gameService->update($request->input('title'),$image,Auth::guard('admin')->user()->id,$id);
+        return redirect()->route('games.edit',$id)->with("msg",$res['message']);
     }
 
     /**

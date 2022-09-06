@@ -24,6 +24,36 @@ class GameService
     public function games() {
         return Game::all();
     }
+
+    public function find (int $id) {
+        return Game::find($id);
+    }
+
+    public function update(string $title,string $image,int $adminId,int $gameId) {
+        try {
+            if ($image == '') {
+                $game = Game::where('id', $gameId)->update([
+                    'title' => $title,
+                    'admin_id' => $adminId,
+                ]);
+            }else{
+                $game = Game::where('id', $gameId)->update([
+                    'title' => $title,
+                    'image' => $image,
+                    'admin_id' => $adminId,
+                ]);
+            }
+
+
+            if (!$game) {
+                return ['success' => false, 'message' => __('Game not found')];
+            }
+            return ['success' => true, 'message' => __('Game has been updated')];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => __('Something went wrong')];
+        }
+    }
+
     public function delete(int $gameId) : array {
         try {
             $game = Game::where('id', $gameId)->delete();
