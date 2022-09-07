@@ -12,12 +12,11 @@
                         </div>
                     @endif
                     <div style="width: 100%;background-color: #cbd5e0">
-
+                        <img
+                            src="../image/avatar/{{$user->avatar ?? '76358702a311d1ba_5ad85d27aa3a3c7e_8224914664781762143215.jpg'}}"
+                            style="width: 100%" id="avatar" alt="{{$user->avatar}}">
                         @if(Auth::user()->id == $user->id)
-                            <img
-                                src="../image/avatar/{{$user->avatar ?? '76358702a311d1ba_5ad85d27aa3a3c7e_8224914664781762143215.jpg'}}"
-                                style="width: 100%" id="avatar" alt="{{$user->avatar}}">
-                            <form action="{{route('user.updateImg')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{route('user.updateImg',Auth::user()->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input class="form-control" name="avatar" type="file" onchange="readURL(this);">
                                 <input class="btn btn-primary" type="submit" value="Choose">

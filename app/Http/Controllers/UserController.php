@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateImageRequest;
+use App\Http\Requests\UpdateUserInfoRequest;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
-    //
     protected UserService $userService;
 
     public function __construct()
@@ -24,33 +24,20 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        return view('user.edit')->with('user', $id);
+        return view('user.edit')->with('user', Auth::user());
     }
 
-    public function updateInfo(Request $request)
+    public function updateInfo(UpdateUserInfoRequest $request)
     {
-        $res = $this->userService->updateInfo(
-            Auth::user()->id,
-            $request->input('fullname'),
-            $request->input('address'),
-            $request->input('dob')
-        );
+        $res = $this->userService->updateInfo($request->validated());
 
         return redirect()->route('user.edit', Auth::user()->id)->with('msg', $res['message']);
     }
 
-    public function updateImg(Request $request)
+    public function updateImg(UpdateImageRequest $request)
     {
-        $image = '';
-        if ($request->file('avatar')) {
-            $file = $request->file('avatar');
-            $filename = $file->getClientOriginalName();
-            if (!file_exists(storage_path('public/image/avatar/' . $filename))) {
-                $file->move(public_path('image/avatar'), $filename);
-            }
-            $image = $filename;
-        }
-        $res = $this->userService->updateImg(Auth::user()->id, $image);
+
+        $res = $this->userService->updateImg($request->validated());
         return redirect()->route('user', Auth::user()->id)->with('msg', $res['message']);
     }
 }
