@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGameRequest;
+use App\Http\Requests\UpdateGameRequest;
 use App\Services\GameService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -29,27 +29,15 @@ class GameController extends Controller
 
     public function store(StoreGameRequest $request)
     {
-        $request->validate();
-        $image = '';
 
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-
-            if (!file_exists(storage_path('public/image/game/' . $filename))) {
-                $file->move(public_path('image/game'), $filename);
-            }
-
-            $image = $filename;
-        }
-
-        $res = $this->gameService->create($request->input('title'), $image, Auth::guard('admin')->user()->id);
+        $res = $this->gameService->create($request->validated(), Auth::guard('admin')->user()->id);
 
         return redirect()->route('games.create')->with('msg', $res['message']);
     }
 
     public function show($id)
     {
+        abort(404);
     }
 
     public function edit($id)
@@ -57,22 +45,10 @@ class GameController extends Controller
         return view('game.edit')->with('game', $this->gameService->find($id));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateGameRequest $request, $id)
     {
-        $image = '';
+        $res = $this->gameService->update($request->validated(), Auth::guard('admin')->user()->id, $id);
 
-        if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-
-            if (!file_exists(storage_path('public/image/game/' . $filename))) {
-                $file->move(public_path('image/game'), $filename);
-            }
-
-            $image = $filename;
-        }
-
-        $res = $this->gameService->update($request->input('title'), $image, Auth::guard('admin')->user()->id, $id);
         return redirect()->route('games.edit', $id)->with('msg', $res['message']);
     }
 
