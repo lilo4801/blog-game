@@ -15,7 +15,7 @@ class GameService
             $file = $fileImg;
             $filename = $file->getClientOriginalName();
 
-            if (!file_exists(storage_path('public/image/game/' . $filename))) {
+            if (!file_exists(public_path('image/game') . $filename)) {
                 $file->move(public_path('image/game'), $filename);
             }
         }

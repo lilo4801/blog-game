@@ -38,7 +38,7 @@
                                     <tr>
                                     <td>1</td>
                                     <td>{{ $game->title }}</td>
-                                    <td><img src="../image/game/{{$game->image}}" style="width: 100px"></td>
+                                    <td><img src="{{asset(GAME_DIR . $game->image)}}" style="width: 100px"></td>
                                     <td>{{$game->admin->fullname}}</td>
                                     <td>
                                         <form action="{{ route('games.edit',$game->id) }}" method="GET" >
