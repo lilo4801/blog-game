@@ -18,5 +18,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::get('/profile/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('user');
+Route::get('/profile/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+Route::POST('/profile/updateImg', [App\Http\Controllers\UserController::class, 'updateImg'])->name('user.updateImg');
+Route::POST('/profile/updateInfo', [App\Http\Controllers\UserController::class, 'updateInfo'])->name('user.updateInfo');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
