@@ -53,8 +53,11 @@ class GameController extends Controller
         $image = '';
         if($request->file('image')){
             $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('image/game'), $filename);
+            $filename= $file->getClientOriginalName();
+            if (!file_exists(storage_path('public/image/game/'.$filename))) {
+                $file-> move(public_path('image/game'), $filename);
+            }
+
             $image= $filename;
         }
         $res = $this->gameService->create($request->input('title'),$image,Auth::guard('admin')->user()->id);
