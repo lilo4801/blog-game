@@ -25,7 +25,7 @@ class StoreGameRequest extends FormRequest
     {
         return [
             'title' => 'required|unique:games|max:255',
-            'image' => 'required',
+            'image' => 'mimes:jpeg,jpg,png,gif|max:10000',
         ];
     }
 }

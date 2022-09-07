@@ -30,7 +30,7 @@ class UpdateGameRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'image' => 'max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|max:10000',
         ];
     }
 }
