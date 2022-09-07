@@ -47,7 +47,7 @@
                                                         </span>
                                                         @enderror
                             <div class="form-group">
-                                <img src="../../../image/game/{{$game->image}}" style="width: 100px">
+                                <img src="{{asset(GAME_DIR .$game->image)}}" style="width: 100px">
                             </div>
                             <div class="form-group">
                                 <label for="image">Image:</label>
