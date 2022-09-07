@@ -30,7 +30,7 @@ class GameController extends Controller
     public function store(StoreGameRequest $request)
     {
 
-        $res = $this->gameService->create($request->validated(), Auth::guard('admin')->user()->id);
+        $res = $this->gameService->create($request->validated());
 
         return redirect()->route('games.create')->with('msg', $res['message']);
     }
@@ -47,7 +47,7 @@ class GameController extends Controller
 
     public function update(UpdateGameRequest $request, $id)
     {
-        $res = $this->gameService->update($request->validated(), Auth::guard('admin')->user()->id, $id);
+        $res = $this->gameService->update($request->validated(), $id);
 
         return redirect()->route('games.edit', $id)->with('msg', $res['message']);
     }

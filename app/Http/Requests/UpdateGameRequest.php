@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Game;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateGameRequest extends FormRequest
 {
@@ -13,7 +15,10 @@ class UpdateGameRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        /** @var Game $game */
+        $game = Game::find($this->route('game'));
+
+        return Auth::guard('admin')->user()->id === $game->admin_id;
     }
 
     /**
@@ -25,7 +30,7 @@ class UpdateGameRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'image' => 'required',
+            'image' => 'max:255',
         ];
     }
 }

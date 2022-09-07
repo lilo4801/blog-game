@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Game;
+use Illuminate\Support\Facades\Auth;
 
 class GameService
 {
@@ -22,13 +23,13 @@ class GameService
         return $filename;
     }
 
-    public function create(array $data, int $adminId): array
+    public function create(array $data): array
     {
         try {
             Game::create([
                 'title' => $data['title'],
                 'image' => $this->hanldeFileAndGetFileName($data['image']),
-                'admin_id' => $adminId,
+                'admin_id' => Auth::guard('admin')->user()->id,
             ]);
             return ['success' => true, 'message' => __('Game has been created')];
         } catch (Exception $e) {
@@ -46,21 +47,20 @@ class GameService
         return Game::find($id);
     }
 
-    public function update(array $data, int $adminId, int $gameId)
+    public function update(array $data, int $gameId)
     {
-        $image = $this->hanldeFileAndGetFileName($data['image']);
-
         try {
-            if ($image === '') {
+            if (!isset($data['image'])) {
                 $game = Game::where('id', $gameId)->update([
                     'title' => $data['title'],
-                    'admin_id' => $adminId,
+                    'admin_id' => Auth::guard('admin')->user()->id,
                 ]);
             } else {
+                $image = $this->hanldeFileAndGetFileName($data['image']);
                 $game = Game::where('id', $gameId)->update([
                     'title' => $data['title'],
                     'image' => $image,
-                    'admin_id' => $adminId,
+                    'admin_id' => Auth::guard('admin')->user()->id,
                 ]);
             }
 
