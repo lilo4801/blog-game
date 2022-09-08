@@ -1,29 +1,12 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class UserService
+class UserService extends GeneralService
 {
-    public function hanldeFileAndGetFileName($fileImg): string
-    {
-        $filename = '';
-
-        if ($fileImg) {
-            $file = $fileImg;
-            $filename = $file->getClientOriginalName();
-
-            if (!file_exists(storage_path('public/image/avatar/' . $filename))) {
-                $file->move(public_path('image/avatar'), $filename);
-            }
-        }
-
-        return $filename;
-    }
 
     public function find(int $id)
     {
@@ -35,7 +18,7 @@ class UserService
         try {
             if (isset($data['avatar'])) {
                 $user = User::where('id', Auth::user()->id)->update([
-                    'avatar' => $this->hanldeFileAndGetFileName($data['avatar']),
+                    'avatar' => $this->hanldeFileAndGetFileName($data['avatar'], USER_DIR),
                 ]);
 
                 if (!$user) {
