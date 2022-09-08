@@ -5,30 +5,14 @@ namespace App\Services;
 use App\Models\Game;
 use Illuminate\Support\Facades\Auth;
 
-class GameService
+class GameService extends GeneralService
 {
-    public function hanldeFileAndGetFileName($fileImg): string
-    {
-        $filename = '';
-
-        if ($fileImg) {
-            $file = $fileImg;
-            $filename = $file->getClientOriginalName();
-
-            if (!file_exists(public_path('image/game') . $filename)) {
-                $file->move(public_path('image/game'), $filename);
-            }
-        }
-
-        return $filename;
-    }
-
     public function create(array $data): array
     {
         try {
             Game::create([
                 'title' => $data['title'],
-                'image' => $this->hanldeFileAndGetFileName($data['image']),
+                'image' => $this->hanldeFileAndGetFileName($data['image'], GAME_DIR),
                 'admin_id' => Auth::guard('admin')->user()->id,
             ]);
             return ['success' => true, 'message' => __('Game has been created')];
@@ -56,7 +40,7 @@ class GameService
                     'admin_id' => Auth::guard('admin')->user()->id,
                 ]);
             } else {
-                $image = $this->hanldeFileAndGetFileName($data['image']);
+                $image = $this->hanldeFileAndGetFileName($data['image'], GAME_DIR);
                 $game = Game::where('id', $gameId)->update([
                     'title' => $data['title'],
                     'image' => $image,
