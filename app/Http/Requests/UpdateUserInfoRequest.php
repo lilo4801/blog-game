@@ -16,7 +16,7 @@ class UpdateUserInfoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->id === User::find($this->route('id'))->id;
+        return true;
     }
 
     /**

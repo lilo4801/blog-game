@@ -4,16 +4,16 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use Illuminate\Validation\Rule;
 
-class UpdateImageRequest extends FormRequest
+class StoreFavoriteGameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -23,10 +23,14 @@ class UpdateImageRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'avatar' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'game_id' => [
+                'required',
+                Rule::unique('favorite_games')->where('user_id', Auth::user()->id),
+            ],
+
         ];
     }
 }
