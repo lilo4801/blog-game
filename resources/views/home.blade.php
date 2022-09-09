@@ -8,9 +8,9 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
                     <div class="card-body">
-                        @if (session('status'))
+                        @if (session('msg'))
                             <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+                                {{ session('msg') }}
                             </div>
                         @endif
                         <form action="{{route('posts.create')}}" method="get">
@@ -25,7 +25,7 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
-{{--                            <img src="{{asset()}}" alt="">--}}
+                            {{--                            <img src="{{asset()}}" alt="">--}}
                             <h2>{{$post->user->fullname}}</h2>
                         </div>
                         <div class="card-header" style="display: flex;justify-content: space-around">
@@ -44,6 +44,11 @@
                                     <form action="{{route('posts.edit',$post->id)}}" method="get">
                                         @csrf
                                         <input type="submit" class="btn btn-warning" value="Edit">
+                                    </form>
+                                    <form action="{{route('posts.destroy',$post->id)}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="submit" class="btn btn-danger" value="Remove">
                                     </form>
                                 @endif
                             </div>

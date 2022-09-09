@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RemovePostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Services\GameService;
@@ -45,6 +46,12 @@ class PostController extends Controller
     {
         $res = $this->postService->update($request->validated(), $id);
         return redirect()->route('posts.edit', $id)->with('msg', $res['message']);
+    }
+
+    public function destroy(RemovePostRequest $request, $id)
+    {
+        $res = $this->postService->remove($id);
+        return redirect()->route('posts.index')->with('msg', $res['message']);
     }
 
 }

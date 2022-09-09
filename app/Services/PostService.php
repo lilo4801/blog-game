@@ -54,4 +54,18 @@ class PostService extends GeneralService
         }
     }
 
+    public function remove($id): array
+    {
+        try {
+            $result = Post::find($id)->delete();
+
+            if (!$result) {
+                return ['success' => false, 'message' => __('Post is not found')];
+            }
+
+            return ['success' => true, 'message' => __('Post has been removed')];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => __('Failed to remove Post')];
+        }
+    }
 }
