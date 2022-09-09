@@ -11,7 +11,7 @@ class PostService extends GeneralService
 {
     public function posts()
     {
-        return Post::with('game')->get();
+        return Post::with('game', 'user')->get();
     }
 
     public function create(array $data): array
@@ -29,4 +29,29 @@ class PostService extends GeneralService
             return ['success' => false, 'message' => __('Failed to create Post')];
         }
     }
+
+    public function find($id)
+    {
+        return Post::find($id);
+    }
+
+    public function update(array $data, int $id): array
+    {
+        try {
+            if (isset($data['image'])) {
+                $data['image'] = $this->hanldeFileAndGetFileName($data['image'], POST_DIR);
+            }
+
+            $result = Post::find($id)->update($data);
+
+            if (!$result) {
+                return ['success' => false, 'message' => __('Post is not found')];
+            }
+
+            return ['success' => true, 'message' => __('Post has been created')];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => __('Failed to create Post')];
+        }
+    }
+
 }

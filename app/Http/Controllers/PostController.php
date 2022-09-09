@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Services\GameService;
 use App\Services\PostService;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -34,4 +34,17 @@ class PostController extends Controller
         $res = $this->postService->create($request->validated());
         return redirect()->route('posts.create')->with('msg', $res['message']);
     }
+
+    public function edit($id)
+    {
+        return view('post.edit')->with('post', $this->postService->find($id))
+            ->with('games', $this->gameService->games());
+    }
+
+    public function update(UpdatePostRequest $request, $id)
+    {
+        $res = $this->postService->update($request->validated(), $id);
+        return redirect()->route('posts.edit', $id)->with('msg', $res['message']);
+    }
+
 }
