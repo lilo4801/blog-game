@@ -17,13 +17,15 @@ class UserService extends GeneralService
     {
         try {
             if (isset($data['avatar'])) {
-                $user = User::where('id', Auth::user()->id)->update([
+                $result = User::where('id', Auth::user()->id)->update([
                     'avatar' => $this->hanldeFileAndGetFileName($data['avatar'], USER_DIR),
                 ]);
 
-                if (!$user) {
+                if (!$result) {
                     return ['success' => false, 'message' => __('User not found')];
                 }
+            } else {
+                return ['success' => false, 'message' => __('Image is empty')];
             }
 
             return ['success' => true, 'message' => __('User has been updated')];
@@ -35,13 +37,13 @@ class UserService extends GeneralService
     public function updateInfo(array $data): array
     {
         try {
-            $user = User::where('id', Auth::user()->id)->update([
+            $result = User::where('id', Auth::user()->id)->update([
                 'fullname' => $data['fullname'],
                 'address' => $data['address'],
                 'dob' => $data['dob'],
             ]);
 
-            if (!$user) {
+            if (!$result) {
                 return ['success' => false, 'message' => __('User not found')];
             }
 
