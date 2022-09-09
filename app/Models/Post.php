@@ -12,4 +12,9 @@ class Post extends Model
     protected $fillable = [
         'title', 'content', 'image', 'game_id', 'user_id',
     ];
+
+    public function game()
+    {
+        return $this->belongsTo(Game::class, 'game_id', 'id');
+    }
 }

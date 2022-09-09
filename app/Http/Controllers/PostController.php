@@ -18,6 +18,11 @@ class PostController extends Controller
         $this->gameService = new GameService();
     }
 
+    public function index()
+    {
+        return view('home')->with('posts', $this->postService->posts());
+    }
+
     public function create()
     {
 

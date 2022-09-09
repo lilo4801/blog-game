@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostService extends GeneralService
 {
+    public function posts()
+    {
+        return Post::with('game')->get();
+    }
+
     public function create(array $data): array
     {
         try {
