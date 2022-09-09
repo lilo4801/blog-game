@@ -23,7 +23,7 @@ class UserController extends Controller
     public function show($id)
     {
         return view('user.profile')->with('user', $this->userService->find($id))
-            ->with('favoriteGames', $this->favoriteGameService->findFGamesbyUserId(Auth::user()->id));
+            ->with('favoriteGames', $this->favoriteGameService->findFGamesbyUserId($id));
     }
 
     public function edit()

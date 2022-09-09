@@ -27,7 +27,7 @@
 
             </div>
             <div class="col-md-8">
-                <h2>Your favorite game:</h2>
+                <h2> Favorite game:</h2>
                 <div class="row">
                     @foreach($favoriteGames as $game)
                         <div class="col-md-3">
