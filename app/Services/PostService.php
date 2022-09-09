@@ -32,7 +32,7 @@ class PostService extends GeneralService
 
     public function find($id)
     {
-        return Post::find($id);
+        return Post::with('game', 'user')->find($id);
     }
 
     public function update(array $data, int $id): array

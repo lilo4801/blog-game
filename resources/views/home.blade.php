@@ -39,7 +39,7 @@
                             </div>
                             <p>{{$post->content}}</p>
                             <div style="display: flex">
-                                <a href="" class="btn btn-dark">See more</a>
+                                <a href="{{route('posts.show',$post->id)}}" class="btn btn-dark">See more</a>
                                 @if(\Illuminate\Support\Facades\Auth::user()->id == $post->user_id)
                                     <form action="{{route('posts.edit',$post->id)}}" method="get">
                                         @csrf

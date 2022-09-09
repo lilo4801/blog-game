@@ -24,6 +24,11 @@ class PostController extends Controller
         return view('home')->with('posts', $this->postService->posts());
     }
 
+    public function show($id)
+    {
+        return view('post.post')->with('post', $this->postService->find($id));
+    }
+
     public function create()
     {
 
