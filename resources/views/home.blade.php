@@ -13,8 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <form action="{{route('posts.create')}}" method="get">
+                            @csrf
+                            <input type="submit" class="btn btn-dark" value="Create new post">
+                        </form>
 
-                    {{ __('You are logged in!') }}
                 </div>
             </div>
         </div>
