@@ -37,11 +37,7 @@ class UserService extends GeneralService
     public function updateInfo(array $data): array
     {
         try {
-            $result = User::where('id', Auth::user()->id)->update([
-                'fullname' => $data['fullname'],
-                'address' => $data['address'],
-                'dob' => $data['dob'],
-            ]);
+            $result = User::where('id', Auth::user()->id)->update($data);
 
             if (!$result) {
                 return ['success' => false, 'message' => __('User not found')];
