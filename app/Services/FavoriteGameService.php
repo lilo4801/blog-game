@@ -18,20 +18,29 @@ class FavoriteGameService
         return FavoriteGame::where('user_id', $user_id)->get();
     }
 
-    public function create($arr): array
+    /**
+     * @param array $arr
+     * @return array ([['user_id'=>1,'game_id' => 2]])
+     */
+    public function generateNewArr(array $arr): array
     {
-        if (empty($arr)) {
-            return ['success' => false, 'message' => __('Failed to create Game')];
-        }
-
         $data = [];
 
         foreach ($arr as $value) {
             $data[] = ['user_id' => Auth::user()->id, 'game_id' => $value];
         }
 
+        return $data;
+    }
+
+    public function create($arr): array
+    {
+        if (empty($arr)) {
+            return ['success' => false, 'message' => __('Failed to create Game')];
+        }
+
         try {
-            FavoriteGame::insert($data);
+            FavoriteGame::insert($this->generateNewArr($arr['game_id']));
 
             return ['success' => true, 'message' => __('Game has been created')];
         } catch (Exception $e) {

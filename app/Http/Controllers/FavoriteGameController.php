@@ -30,7 +30,7 @@ class FavoriteGameController extends Controller
     {
 
 
-        $res = $this->favoriteGameService->create($request->input('game_id'));
+        $res = $this->favoriteGameService->create($request->validated());
         return redirect()->route('user.addGame')->with('msg', $res['message']);
     }
 
