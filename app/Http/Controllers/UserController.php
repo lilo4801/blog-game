@@ -33,6 +33,7 @@ class UserController extends Controller
 
     public function updateInfo(UpdateUserInfoRequest $request)
     {
+
         $res = $this->userService->updateInfo($request->validated());
 
         return redirect()->route('user.edit', Auth::user()->id)->with('msg', $res['message']);
