@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
-
+use \App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteGameController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +33,7 @@ Route::middleware(['user'])->group(function () {
     Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
 
-
+    Route::resource('posts.comments', CommentController::class)->except(['create','show','index']);
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RemovePostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Services\CommentService;
 use App\Services\GameService;
 use App\Services\PostService;
 
@@ -12,11 +13,13 @@ class PostController extends Controller
 {
     protected GameService $gameService;
     protected PostService $postService;
+    protected CommentService $commentService;
 
     public function __construct()
     {
         $this->postService = new PostService();
         $this->gameService = new GameService();
+        $this->commentService = new CommentService();
     }
 
     public function index()
@@ -26,7 +29,8 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return view('post.post')->with('post', $this->postService->find($id));
+        return view('post.post')->with('post', $this->postService->find($id))
+            ->with('comments', $this->commentService->comments());
     }
 
     public function create()

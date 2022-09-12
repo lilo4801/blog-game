@@ -50,8 +50,45 @@
 
                     </div>
                     <div class="card-footer">
-                        comments here
+                        <form action="{{route('posts.comments.store',$post->id)}}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Comments:</label>
+                                <textarea class="form-control" name="content" id="exampleFormControlTextarea1"
+                                          rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Send" class="btn btn-primary">
+                            </div>
+                        </form>
+
                     </div>
+                    @foreach($comments as $comment)
+                        <div class="card-header">
+                            <h3>{{$comment->user->fullname}}</h3>
+                            <p>{{$comment->content}}</p>
+                            @if($comment->user_id === \Illuminate\Support\Facades\Auth::user()->id)
+                                <div style="display: flex">
+                                    <form action="{{route('posts.comments.destroy',[$post->id,$comment->id])}}"
+                                          method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <div class="form-group">
+                                            <input type="submit" value="X" class="btn btn-danger">
+                                        </div>
+                                    </form>
+                                    <form action="{{route('posts.comments.edit',[$post->id,$comment->id])}}" method="get">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="submit" value="Edit" class="btn btn-warning">
+                                        </div>
+                                    </form>
+                                </div>
+
+                            @endif
+
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
