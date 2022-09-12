@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
-
+use \App\Http\Controllers\LikeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteGameController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,11 +32,11 @@ Route::middleware(['user'])->group(function () {
     Route::POST('/profile/updateImg', [UserController::class, 'updateImg'])->name('user.updateImg');
     Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
-
-
+    Route::resource('posts', PostController::class);
+    Route::post('/like', [LikeController::class, 'store'])->name('user.like');
+    Route::delete('/unlike', [LikeController::class, 'destroy'])->name('user.unlike');
 });
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::resource('posts', PostController::class);
