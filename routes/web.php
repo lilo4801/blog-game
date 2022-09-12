@@ -5,6 +5,7 @@ use \App\Http\Controllers\PostController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FavoriteGameController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,10 +24,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware(['user'])->group(function () {
+    Route::get('/profile/addGame', [FavoriteGameController::class, 'create'])->name('user.addGame');
+    Route::post('/profile/addGame', [FavoriteGameController::class, 'store'])->name('user.storeGame');
+    Route::post('/profile/removeGame/{id}', [FavoriteGameController::class, 'destroy'])->name('user.removeGame');
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::POST('/profile/updateImg', [UserController::class, 'updateImg'])->name('user.updateImg');
+    Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
-    Route::get('/profile/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::POST('/profile/updateImg/{id}', [UserController::class, 'updateImg'])->name('user.updateImg');
-    Route::POST('/profile/updateInfo/{id}', [UserController::class, 'updateInfo'])->name('user.updateInfo');
+
+
 });
 
 

@@ -2,20 +2,21 @@
 
 namespace App\Http\Requests;
 
+use App\Models\FavoriteGame;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
-class UpdateImageRequest extends FormRequest
+class RemoveFavoriteGame extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return true;
+        $favoriteGame = FavoriteGame::find($this->route('id'));
+        return $favoriteGame && Auth::user()->id === $favoriteGame->user_id;
     }
 
     /**
@@ -23,10 +24,10 @@ class UpdateImageRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'avatar' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            //
         ];
     }
 }
