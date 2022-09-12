@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FollowService
 {
-    public function create(int $user_id2): array
+    public function create(array $data): array
     {
         try {
             Follow::create([
                 'user_id1' => Auth::user()->id,
-                'user_id2' => $user_id2,
+                'user_id2' => $data['user_id2'],
             ]);
             return ['success' => true, 'message' => __('Follow has been created')];
         } catch (Exception $e) {
@@ -29,7 +29,6 @@ class FollowService
 
     public function update(array $arr): array
     {
-
         try {
             $result = Follow::where([['user_id2', $arr['user_id2']], ['user_id1', Auth::user()->id]])->update([
                 'status' => $arr['status'],

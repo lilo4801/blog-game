@@ -19,8 +19,7 @@ class FollowController extends Controller
 
     public function store(StoreFollowRequest $request)
     {
-
-        $res = $this->followService->create($request->validated()['user_id2']);
+        $res = $this->followService->create($request->validated());
         return redirect()->route('user', $request->validated()['user_id2'])->with('msg', $res['message']);
     }
 
