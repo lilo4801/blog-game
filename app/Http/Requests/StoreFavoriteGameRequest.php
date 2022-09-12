@@ -26,9 +26,8 @@ class StoreFavoriteGameRequest extends FormRequest
     public function rules()
     {
         return [
-            'game_id' => [
-                'required',
-                Rule::unique('favorite_games')->where('user_id', Auth::user()->id),
+            'game_id.*' => [
+                Rule::unique('favorite_games', 'game_id')->where('user_id', Auth::user()->id),
             ],
 
         ];
