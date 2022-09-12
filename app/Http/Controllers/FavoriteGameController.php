@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RemoveFavoriteGame;
 use App\Http\Requests\StoreFavoriteGameRequest;
 use App\Services\FavoriteGameService;
 use App\Services\GameService;
@@ -34,7 +35,7 @@ class FavoriteGameController extends Controller
         return redirect()->route('user.addGame')->with('msg', $res['message']);
     }
 
-    public function destroy($id)
+    public function destroy(RemoveFavoriteGame $request, $id)
     {
         $res = $this->favoriteGameService->remove($id);
         return redirect()->route('user.addGame')->with('msg', $res['message']);
