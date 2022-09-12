@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\PostController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 /*
@@ -29,3 +31,5 @@ Route::middleware(['user'])->group(function () {
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::resource('posts', PostController::class);

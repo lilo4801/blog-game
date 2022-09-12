@@ -8,7 +8,7 @@
                     <div class="card-header">
                         <h1>{{ __('List games') }}</h1>
 
-                        <a href="{{route('games.create')}}" class="btn btn-primary" > Create new game</a>
+                        <a href="{{route('games.create')}}" class="btn btn-primary"> Create new game</a>
 
 
                         @if(session('msg'))
@@ -34,26 +34,26 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($games as $game)
-                                    <tr>
+                            @foreach ($games as $game)
+                                <tr>
                                     <td>1</td>
                                     <td>{{ $game->title }}</td>
                                     <td><img src="{{asset(GAME_DIR . $game->image)}}" style="width: 100px"></td>
                                     <td>{{$game->admin->fullname}}</td>
                                     <td>
-                                        <form action="{{ route('games.edit',$game->id) }}" method="GET" >
+                                        <form action="{{ route('games.edit',$game->id) }}" method="GET">
                                             @csrf
                                             <input type="submit" class="btn btn-warning" value="Edit"/>
                                         </form>
-                                        <form action="{{ route('games.destroy',$game->id) }}" method="post" >
+                                        <form action="{{ route('games.destroy',$game->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <input type="submit" class="btn btn-danger" value="Remove"/>
                                         </form>
 
                                     </td>
-                                    </tr>
-                                @endforeach
+                                </tr>
+                            @endforeach
 
 
                             </tbody>
