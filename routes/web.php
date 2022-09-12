@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['user'])->group(function () {
+    Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
+    Route::get('/profile/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::POST('/profile/updateImg/{id}', [UserController::class, 'updateImg'])->name('user.updateImg');
+    Route::POST('/profile/updateInfo/{id}', [UserController::class, 'updateInfo'])->name('user.updateInfo');
+});
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('posts', PostController::class);
