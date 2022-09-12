@@ -68,7 +68,7 @@
                         @else
                             @if($follow)
                                 @if($follow->status)
-                                    <form action="{{route('follow.update',$follow->id)}}" method="POST">
+                                    <form action="{{route('follow.update')}}" method="POST">
                                         @csrf
 
                                         <input type="hidden" value="{{$user->id}}" name="user_id2">
@@ -76,9 +76,9 @@
                                         <input class="btn btn-warning" type="submit" value="Following">
                                     </form>
                                 @else
-                                    <form action="{{route('follow.update',$follow->id)}}" method="POST">
+                                    <form action="{{route('follow.update')}}" method="POST">
                                         @csrf
-                                        
+
                                         <input type="hidden" value="{{$user->id}}" name="user_id2">
                                         <input type="hidden" value="1" name="status">
                                         <input class="btn btn-primary" type="submit" value="Follow">

@@ -32,7 +32,7 @@ Route::middleware(['user'])->group(function () {
     Route::POST('/profile/updateImg', [UserController::class, 'updateImg'])->name('user.updateImg');
     Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
     Route::POST('/profile/follow', [FollowController::class, 'store'])->name('follow.store');
-    Route::POST('/profile/unfollow/{id}', [FollowController::class, 'update'])->name('follow.update');
+    Route::POST('/profile/unfollow', [FollowController::class, 'update'])->name('follow.update');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
 
 

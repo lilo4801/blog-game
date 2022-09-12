@@ -24,10 +24,9 @@ class FollowController extends Controller
         return redirect()->route('user', $request->validated()['user_id2'])->with('msg', $res['message']);
     }
 
-    public function update(UpdateFollowRequest $request, $id)
+    public function update(Request $request)
     {
-
-        $res = $this->followService->update($request->validated());
-        return redirect()->route('user', $request->validated()['user_id2'])->with('msg', $res['message']);
+        $res = $this->followService->update($request->input());
+        return redirect()->route('user', $request->input()['user_id2'])->with('msg', $res['message']);
     }
 }
