@@ -16,7 +16,7 @@ class RemoveFavoriteGame extends FormRequest
     public function authorize()
     {
         $favoriteGame = FavoriteGame::find($this->route('id'));
-        return Auth::user()->id === $favoriteGame->user_id;
+        return $favoriteGame && Auth::user()->id === $favoriteGame->user_id;
     }
 
     /**
