@@ -28,7 +28,9 @@ class StoreLikeRequest extends FormRequest
         return [
             'post_id' => [
                 Rule::unique('likes', 'post_id')->where('user_id', Auth::user()->id),
+                'required',
             ],
+
         ];
     }
 }
