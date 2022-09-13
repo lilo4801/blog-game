@@ -62,9 +62,10 @@
                                         <input type="submit" class="btn btn-light" value="Like">
                                     </form>
                                 @endif
-                                <a href="{{route('posts.show',$post->id)}}" class="btn btn-dark">See more</a>
-                                <a href="{{route('posts.show',$post->id)}}" class="btn btn-info">See more</a>
-                                <a href="{{route('user.report',$post->id)}}" class="btn btn-dark">Report</a>
+                                <div>
+                                    <a href="{{route('posts.show',$post->id)}}" class="btn btn-dark">See more</a>
+                                    <a href="{{route('user.report',$post->id)}}" class="btn btn-dark">Report</a>
+                                </div>
                                 @if(Auth::user() && Auth::user()->id === $post->user_id)
                                     <form action="{{route('posts.edit',$post->id)}}" method="get">
                                         @csrf
