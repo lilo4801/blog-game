@@ -3,18 +3,19 @@
 namespace App\Services;
 
 use App\Models\Game;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 
 class GameService extends GeneralService
 {
     public function create(array $data): array
     {
+        data_set($data, 'image', $this->hanldeFileAndGetFileName(data_get($data, 'image'), GAME_DIR));
+        data_set($data, 'admin_id', Auth::guard('admin')->user()->id);
+
         try {
-            Game::create([
-                'title' => $data['title'],
-                'image' => $this->hanldeFileAndGetFileName($data['image'], GAME_DIR),
-                'admin_id' => Auth::guard('admin')->user()->id,
-            ]);
+            Game::create($data);
+
             return ['success' => true, 'message' => __('Game has been created')];
         } catch (Exception $e) {
             return ['success' => false, 'message' => __('Failed to create Game')];
@@ -34,19 +35,12 @@ class GameService extends GeneralService
     public function update(array $data, int $gameId)
     {
         try {
-            if (!isset($data['image'])) {
-                $game = Game::where('id', $gameId)->update([
-                    'title' => $data['title'],
-                    'admin_id' => Auth::guard('admin')->user()->id,
-                ]);
-            } else {
-                $image = $this->hanldeFileAndGetFileName($data['image'], GAME_DIR);
-                $game = Game::where('id', $gameId)->update([
-                    'title' => $data['title'],
-                    'image' => $image,
-                    'admin_id' => Auth::guard('admin')->user()->id,
-                ]);
-            }
+            data_set($data, 'admin_id', Auth::guard('admin')->user()->id);
+
+            data_get($data, 'image') &&
+            data_set($data, 'image', $this->hanldeFileAndGetFileName(data_get($data, 'image'), GAME_DIR));
+
+            $game = Game::where('id', $gameId)->update($data);
 
             if (!$game) {
                 return ['success' => false, 'message' => __('Game not found')];
@@ -61,7 +55,9 @@ class GameService extends GeneralService
     public function delete(int $gameId): array
     {
         try {
-            $game = Game::where('id', $gameId)->delete();
+            $game = Game::find($gameId);
+            $game->posts()->delete();
+            $game->delete();
 
             if (!$game) {
                 return ['success' => false, 'message' => __('Game not found')];
