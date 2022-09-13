@@ -16,14 +16,12 @@ class PostService extends GeneralService
 
     public function create(array $data): array
     {
+
+        data_set($data, 'image', $this->hanldeFileAndGetFileName(data_get($data, 'image'), POST_DIR));
+        data_set($data, 'user_id', Auth::user()->id);
+
         try {
-            Post::create([
-                'title' => $data['title'],
-                'image' => $this->hanldeFileAndGetFileName($data['image'], POST_DIR),
-                'user_id' => Auth::user()->id,
-                'content' => $data['content'],
-                'game_id' => $data['game_id'],
-            ]);
+            Post::create($data);
             return ['success' => true, 'message' => __('Post has been created')];
         } catch (Exception $e) {
             return ['success' => false, 'message' => __('Failed to create Post')];
@@ -38,9 +36,8 @@ class PostService extends GeneralService
     public function update(array $data, int $id): array
     {
         try {
-            if (isset($data['image'])) {
-                $data['image'] = $this->hanldeFileAndGetFileName($data['image'], POST_DIR);
-            }
+            data_get($data, 'image') &&
+            data_set($data, 'image', $this->hanldeFileAndGetFileName(data_get($data, 'image'), POST_DIR));
 
             $result = Post::find($id)->update($data);
 
