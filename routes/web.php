@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
-
+use \App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteGameController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +31,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::POST('/profile/updateImg', [UserController::class, 'updateImg'])->name('user.updateImg');
     Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
+    Route::POST('/profile/follow', [FollowController::class, 'store'])->name('follow.store');
+    Route::POST('/profile/unfollow', [FollowController::class, 'update'])->name('follow.update');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
 
 
