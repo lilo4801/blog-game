@@ -11,7 +11,7 @@ class PostService extends GeneralService
 {
     public function posts()
     {
-        return Post::with('game', 'user', 'likes')->get();
+        return Post::with('game', 'user')->get();
     }
 
     public function create(array $data): array

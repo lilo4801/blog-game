@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
+use \App\Http\Controllers\CommentController;
 use \App\Http\Controllers\LikeController;
 use \App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
@@ -35,11 +36,15 @@ Route::middleware(['user'])->group(function () {
     Route::POST('/profile/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::POST('/profile/unfollow', [FollowController::class, 'update'])->name('follow.update');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
+    Route::resource('posts.comments', CommentController::class)->except(['create','show','index']);
+    Route::resource('posts', PostController::class);
     Route::resource('posts', PostController::class);
     Route::post('/like', [LikeController::class, 'store'])->name('user.like');
     Route::delete('/unlike', [LikeController::class, 'destroy'])->name('user.unlike');
+
 });
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
