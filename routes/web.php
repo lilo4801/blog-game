@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
-
+use \App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteGameController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,8 @@ Route::middleware(['user'])->group(function () {
     Route::POST('/profile/updateInfo', [UserController::class, 'updateInfo'])->name('user.updateInfo');
     Route::get('/profile/{id}', [UserController::class, 'show'])->name('user');
 
+    Route::get('/report/{id}', [ReportController::class, 'create'])->name('user.report');
+    Route::post('/report', [ReportController::class, 'store'])->name('user.report.store');
 
 });
 

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use \App\Http\Controllers\GameController;
+use \App\Http\Controllers\Admin\HomeController;
+use \App\Http\Controllers\ReportController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
@@ -18,6 +20,9 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('games', GameController::class);
         Route::post('/logout', [LoginController::class, 'destroy'])->name('admin.logout');
-        Route::view('/home', 'admin.home')->name('admin.home');
+        Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
+
+        Route::post('/report', [ReportController::class, 'update'])->name('admin.report.update');
+
     });
 });

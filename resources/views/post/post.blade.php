@@ -35,11 +35,18 @@
                         <p>{{$post->content}}</p>
                         <div style="display: flex">
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->id == $post->user_id)
+                            @if(Auth::user() && Auth::user()->id === $post->user_id)
                                 <form action="{{route('posts.edit',$post->id)}}" method="get">
                                     @csrf
                                     <input type="submit" class="btn btn-warning" value="Edit">
                                 </form>
+                                <form action="{{route('posts.destroy',$post->id)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <input type="submit" class="btn btn-danger" value="Remove">
+                                </form>
+                            @endif
+                            @if(Auth::guard('admin')->user() )
                                 <form action="{{route('posts.destroy',$post->id)}}" method="post">
                                     @csrf
                                     @method('delete')

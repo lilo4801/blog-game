@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class RemovePostRequest extends FormRequest
+class StoreReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,13 +13,7 @@ class RemovePostRequest extends FormRequest
      */
     public function authorize()
     {
-        $post = Post::find($this->route('post'));
-
-        if (Auth::guard('admin')->user()) {
-            return true;
-        }
-
-        return $post && Auth::user() && Auth::user()->id === $post->user_id;
+        return true;
     }
 
     /**
@@ -32,7 +24,8 @@ class RemovePostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'content' => 'required',
+            'post_id' => 'required',
         ];
     }
 }
