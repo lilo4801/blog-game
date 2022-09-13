@@ -28,12 +28,17 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return view('post.post')->with('post', $this->postService->find($id));
+        $post = $this->postService->find($id);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        return view('post.post')->with('post', $post);
     }
 
     public function create()
     {
-
         return view('post.create')->with('games', $this->gameService->games());
     }
 
@@ -45,7 +50,13 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        return view('post.edit')->with('post', $this->postService->find($id))
+        $post = $this->postService->find($id);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        return view('post.edit')->with('post', $post)
             ->with('games', $this->gameService->games());
     }
 
