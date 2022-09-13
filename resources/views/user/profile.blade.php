@@ -38,11 +38,11 @@
             <div class="col-md-8">
                 <h2> Favorite game:</h2>
                 <div class="row">
-                    @foreach($favoriteGames as $game)
+                    @foreach($favoriteGames as $gameF)
                         <div class="col-md-3">
                             <div class="card" style="width:100%;height: 220px">
                                 <label class="container">
-                                    <img width="100%" height="200px" src="{{asset(GAME_DIR.$game->game->image)}}">
+                                    <img width="100%" height="200px" src="{{asset(GAME_DIR.$gameF->game->image)}}">
                                 </label>
                             </div>
                         </div>

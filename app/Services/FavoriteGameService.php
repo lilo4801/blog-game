@@ -15,7 +15,7 @@ class FavoriteGameService
 
     public function findFGamesbyUserId(int $user_id)
     {
-        return FavoriteGame::where('user_id', $user_id)->get();
+        return FavoriteGame::with('game')->where('user_id', $user_id)->get();
     }
 
     /**
