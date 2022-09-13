@@ -11,6 +11,15 @@
                         <strong>{{session('msg')}}!</strong>
                     </div>
                 @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div style="width: 100%;background-color: #cbd5e0">
                     <img
                         src="{{asset(USER_DIR . $user->avatar ?? '76358702a311d1ba_5ad85d27aa3a3c7e_8224914664781762143215.jpg')}}"
@@ -47,7 +56,7 @@
                         <h4 class="card-title">{{$user->fullname}}</h4>
                         <p class="card-text">Address: {{$user->address ?: 'none'}}</p>
                         <p class="card-text">Date of birth: {{$user->dob ?: 'none'}}</p>
-                        @if(Auth::user()->id == $user->id)
+                        @if(Auth::user()->id === $user->id)
                             <form action="{{route('user.edit')}}" method="GET">
                                 @csrf
                                 <input class="btn btn-primary" type="submit" value="Edit profile">
@@ -56,6 +65,32 @@
                                 @csrf
                                 <input class="btn btn-warning" type="submit" value="Add your favorite game">
                             </form>
+                        @else
+                            @if($follow)
+                                @if($follow->status)
+                                    <form action="{{route('follow.update')}}" method="POST">
+                                        @csrf
+
+                                        <input type="hidden" value="{{$user->id}}" name="user_id2">
+                                        <input type="hidden" value="0" name="status">
+                                        <input class="btn btn-warning" type="submit" value="Following">
+                                    </form>
+                                @else
+                                    <form action="{{route('follow.update')}}" method="POST">
+                                        @csrf
+
+                                        <input type="hidden" value="{{$user->id}}" name="user_id2">
+                                        <input type="hidden" value="1" name="status">
+                                        <input class="btn btn-primary" type="submit" value="Follow">
+                                    </form>
+                                @endif
+                            @else
+                                <form action="{{route('follow.store')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="{{$user->id}}" name="user_id2">
+                                    <input class="btn btn-primary" type="submit" value="Follow">
+                                </form>
+                            @endif
                         @endif
                     </div>
 
