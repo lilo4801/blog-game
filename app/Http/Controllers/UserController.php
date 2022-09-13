@@ -22,7 +22,13 @@ class UserController extends Controller
 
     public function show($id)
     {
-        return view('user.profile')->with('user', $this->userService->find($id))
+        $user = $this->userService->find($id);
+
+        if (!$user) {
+            abort(404);
+        }
+
+        return view('user.profile')->with('user', $user)
             ->with('favoriteGames', $this->favoriteGameService->findFGamesbyUserId($id));
     }
 
@@ -33,7 +39,6 @@ class UserController extends Controller
 
     public function updateInfo(UpdateUserInfoRequest $request)
     {
-
         $res = $this->userService->updateInfo($request->validated());
 
         return redirect()->route('user.edit', Auth::user()->id)->with('msg', $res['message']);
@@ -41,7 +46,6 @@ class UserController extends Controller
 
     public function updateImg(UpdateImageRequest $request)
     {
-
         $res = $this->userService->updateImg($request->validated());
         return redirect()->route('user', Auth::user()->id)->with('msg', $res['message']);
     }
