@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
-use App\Http\Requests\UpdateReportRequest;
 use App\Services\ReportService;
-use Illuminate\Http\Request;
+
 
 class ReportController extends Controller
 {
@@ -28,10 +27,6 @@ class ReportController extends Controller
         return redirect()->route('home')->with('msg', $res['message']);
     }
 
-    public function update(UpdateReportRequest $request)
-    {
-        $res = $this->reportService->update($request->validated());
-        return redirect()->route('admin.home')->with('msg', $res['message']);
-    }
+
 
 }

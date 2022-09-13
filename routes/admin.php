@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use \App\Http\Controllers\GameController;
 use \App\Http\Controllers\Admin\HomeController;
-use \App\Http\Controllers\ReportController;
+use \App\Http\Controllers\Admin\ReportController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');

@@ -24,8 +24,8 @@ class UpdateReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'report_id' => 'required',
-            'status' => 'required',
+            'report_id' => '',
+            'status' => '',
         ];
     }
 }

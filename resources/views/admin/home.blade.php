@@ -34,20 +34,28 @@
                                             more</a></td>
                                     <td>{{$report->content}}</td>
                                     <td>
-                                        <form action="{{route('admin.report.update')}}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="report_id" value="{{$report->id}}">
-                                            <select name="status">
-                                                <option {{$report->status === 1 ? 'selected' : '' }}  value="1">Accept
-                                                </option>
-                                                <option {{$report->status === 0 ? 'selected' : '' }} value="0">Pending
-                                                </option>
-                                                <option {{$report->status === -1 ? 'selected' : '' }} value="-1">
-                                                    Reject
-                                                </option>
-                                            </select>
-                                            <input type="submit" class="btn btn-warning" value="Update">
-                                        </form>
+                                        @if($report->status === 0)
+                                            <form action="{{route('admin.report.update')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="report_id" value="{{$report->id}}">
+                                                <select name="status">
+                                                    <option {{$report->status === 1 ? 'selected' : '' }}  value="1">
+                                                        Accept
+                                                    </option>
+                                                    <option {{$report->status === 0 ? 'selected' : '' }} value="0">
+                                                        Pending
+                                                    </option>
+                                                    <option {{$report->status === -1 ? 'selected' : '' }} value="-1">
+                                                        Reject
+                                                    </option>
+                                                </select>
+                                                <input type="submit" class="btn btn-warning" value="Update">
+                                            </form>
+                                        @elseif($report->status === 1 )
+                                            Accepted
+                                        @else
+                                            Rejected
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
