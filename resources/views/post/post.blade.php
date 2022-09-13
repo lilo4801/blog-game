@@ -63,7 +63,7 @@
                         </form>
 
                     </div>
-                    @foreach($comments as $comment)
+                    @foreach($post->comments as $comment)
                         <div class="card-header">
                             <h3>{{$comment->user->fullname}}</h3>
                             <p>{{$comment->content}}</p>
@@ -77,7 +77,8 @@
                                             <input type="submit" value="X" class="btn btn-danger">
                                         </div>
                                     </form>
-                                    <form action="{{route('posts.comments.edit',[$post->id,$comment->id])}}" method="get">
+                                    <form action="{{route('posts.comments.edit',[$post->id,$comment->id])}}"
+                                          method="get">
                                         @csrf
                                         <div class="form-group">
                                             <input type="submit" value="Edit" class="btn btn-warning">

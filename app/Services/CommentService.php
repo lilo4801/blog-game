@@ -5,15 +5,11 @@ namespace App\Services;
 
 
 use App\Models\Comment;
-use App\Models\Game;
+
 use Illuminate\Support\Facades\Auth;
 
 class CommentService
 {
-    public function comments()
-    {
-        return Comment::with('user')->get();
-    }
 
     public function find($id)
     {

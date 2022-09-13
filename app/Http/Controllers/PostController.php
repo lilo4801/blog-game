@@ -13,13 +13,12 @@ class PostController extends Controller
 {
     protected GameService $gameService;
     protected PostService $postService;
-    protected CommentService $commentService;
 
     public function __construct()
     {
         $this->postService = new PostService();
         $this->gameService = new GameService();
-        $this->commentService = new CommentService();
+
     }
 
     public function index()
@@ -29,8 +28,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return view('post.post')->with('post', $this->postService->find($id))
-            ->with('comments', $this->commentService->comments());
+        return view('post.post')->with('post', $this->postService->find($id));
     }
 
     public function create()
