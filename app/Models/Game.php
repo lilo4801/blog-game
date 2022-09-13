@@ -31,4 +31,11 @@ class Game extends Model
     {
         return $this->hasMany(Post::class, 'game_id', 'id');
     }
+
+    public function favorite_games()
+    {
+        return $this->hasMany(FavoriteGame::class, 'game_id', 'id');
+    }
+
+
 }

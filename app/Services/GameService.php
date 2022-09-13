@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Game;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use function Symfony\Component\HttpFoundation\Session\Storage\Handler\commit;
 
 class GameService extends GeneralService
 {
@@ -54,17 +56,21 @@ class GameService extends GeneralService
 
     public function delete(int $gameId): array
     {
+        DB::beginTransaction();
         try {
             $game = Game::find($gameId);
             $game->posts()->delete();
+            $game->favorite_games()->delete();
             $game->delete();
 
             if (!$game) {
                 return ['success' => false, 'message' => __('Game not found')];
             }
 
+            DB::commit();
             return ['success' => true, 'message' => __('Game has been deleted')];
         } catch (Exception $e) {
+            DB::rollBack();
             return ['success' => false, 'message' => __('Something went wrong')];
         }
     }
