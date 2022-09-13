@@ -18,7 +18,7 @@ class PostService extends GeneralService
     {
 
         data_set($data, 'image', $this->hanldeFileAndGetFileName(data_get($data, 'image'), POST_DIR));
-        data_set($data, 'user_id', Auth::user()->id, POST_DIR);
+        data_set($data, 'user_id', Auth::user()->id);
 
         try {
             Post::create($data);
