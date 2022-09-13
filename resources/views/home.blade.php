@@ -38,7 +38,31 @@
                                 <img width="400px" src="{{asset(POST_DIR.$post->image)}}" alt="">
                             </div>
                             <p>{{$post->content}}</p>
-                            <div style="display: flex">
+                            <div style="display: flex;flex-direction: column;">
+                                @php
+                                    $isCheck = true;
+                                @endphp
+                                @foreach($post->likes as $like)
+                                    @if($like->user_id  === \Illuminate\Support\Facades\Auth::user()->id )
+                                        <form action="{{route('user.unlike')}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <input type="hidden" value="{{$post->id}}" name="post_id">
+                                            <input type="submit" class="btn btn-primary" value="Liked">
+                                        </form>
+                                        @php
+                                            $isCheck = false;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if($isCheck)
+                                    <form action="{{route('user.like')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" value="{{$post->id}}" name="post_id">
+                                        <input type="submit" class="btn btn-light" value="Like">
+                                    </form>
+                                @endif
+                                <a href="{{route('posts.show',$post->id)}}" class="btn btn-dark">See more</a>
                                 <a href="{{route('posts.show',$post->id)}}" class="btn btn-info">See more</a>
                                 <a href="{{route('user.report',$post->id)}}" class="btn btn-dark">Report</a>
                                 @if(Auth::user() && Auth::user()->id === $post->user_id)

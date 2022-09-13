@@ -16,12 +16,7 @@ class RemovePostRequest extends FormRequest
     public function authorize()
     {
         $post = Post::find($this->route('post'));
-
-        if (Auth::guard('admin')->user()) {
-            return true;
-        }
-
-        return $post && Auth::user() && Auth::user()->id === $post->user_id;
+        return $post && Auth::user()->id === $post->user_id;
     }
 
     /**
