@@ -19,10 +19,23 @@ class Game extends Model
     protected $fillable = [
         'title',
         'image',
-        'admin_id'
+        'admin_id',
     ];
+
     public function admin()
     {
         return $this->belongsTo(Admin::class);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'game_id', 'id');
+    }
+
+    public function favorite_games()
+    {
+        return $this->hasMany(FavoriteGame::class, 'game_id', 'id');
+    }
+
+
 }

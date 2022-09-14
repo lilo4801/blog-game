@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Post;
+use App\Models\Game;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdatePostRequest extends FormRequest
+class RemoveGameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,8 +15,8 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        $post = Post::find($this->route('post'));
-        return $post && Auth::user()->id === $post->user_id;
+        $game = Game::find($this->route('game'));
+        return $game && $game->admin_id === Auth::guard('admin')->user()->id;
     }
 
     /**
@@ -27,11 +27,7 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255',
-            'content' => '',
-            'game_id' => '',
-            'image' => 'mimes:jpeg,jpg,png,gif|max:10000',
-
+            //
         ];
     }
 }

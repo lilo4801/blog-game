@@ -22,4 +22,15 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
+
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'post_id', 'id');
+    }
 }
