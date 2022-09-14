@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostService extends GeneralService
 {
@@ -53,15 +54,19 @@ class PostService extends GeneralService
 
     public function remove($id): array
     {
+        DB::beginTransaction();
         try {
-            $result = Post::find($id)->delete();
-
+            $result = Post::find($id);
+            $result->comments()->delete();
+            $result->likes()->delete();
+            $result->delete();
             if (!$result) {
                 return ['success' => false, 'message' => __('Post is not found')];
             }
-
+            DB::commit();
             return ['success' => true, 'message' => __('Post has been removed')];
         } catch (Exception $e) {
+            DB::rollBack();
             return ['success' => false, 'message' => __('Failed to remove Post')];
         }
     }
