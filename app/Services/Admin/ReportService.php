@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\admin;
+namespace App\Services\Admin;
 
 
 use App\Enums\StatusReportType;
