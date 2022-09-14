@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateReportRequest;
-use App\Services\ReportService;
+use App\Services\admin\ReportService;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\StatusReportType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateReportRequest extends FormRequest
 {
@@ -24,8 +26,11 @@ class UpdateReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'report_id' => '',
-            'status' => '',
+            'report_id' => 'required',
+            'status' => [
+                'required',
+                Rule::in(StatusReportType::getValues()),
+            ],
         ];
     }
 }
