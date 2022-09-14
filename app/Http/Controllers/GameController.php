@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RemoveGameRequest;
 use App\Http\Requests\StoreGameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Services\GameService;
@@ -42,7 +43,13 @@ class GameController extends Controller
 
     public function edit($id)
     {
-        return view('game.edit')->with('game', $this->gameService->find($id));
+        $game = $this->gameService->find($id);
+
+        if (!game) {
+            abort(404);
+        }
+
+        return view('game.edit')->with('game', $game);
     }
 
     public function update(UpdateGameRequest $request, $id)
@@ -52,7 +59,7 @@ class GameController extends Controller
         return redirect()->route('games.edit', $id)->with('msg', $res['message']);
     }
 
-    public function destroy($id)
+    public function destroy(RemoveGameRequest $request, $id)
     {
         $res = $this->gameService->delete($id);
         return redirect()->route('games.index')->with('msg', $res['message']);
