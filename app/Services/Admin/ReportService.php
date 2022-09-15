@@ -7,6 +7,7 @@ namespace App\Services\Admin;
 use App\Enums\StatusReportType;
 use App\Models\Post;
 use App\Models\Report;
+use App\Services\PostService;
 use Illuminate\Support\Facades\DB;
 
 class ReportService
@@ -21,8 +22,8 @@ class ReportService
                 'status' => $arr['status'],
             ]);
 
-            if (data_get($arr, 'status', -99) == StatusReportType::ACCEPT) {
-                $resultPost = Post::find($result->post_id)->delete();
+            if ((int)data_get($arr, 'status', -99) === StatusReportType::ACCEPT) {
+                $resultPost = (new PostService())->remove($result->post_id);
 
                 if (!$resultPost) {
                     return ['success' => false, 'message' => __('Post is not found')];
