@@ -9,6 +9,7 @@ use \App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteGameController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,10 +40,12 @@ Route::middleware(['user'])->group(function () {
 
     Route::get('/report/{id}', [ReportController::class, 'create'])->name('user.report');
     Route::post('/report', [ReportController::class, 'store'])->name('user.report.store');
-    Route::resource('posts.comments', CommentController::class)->except(['create','show','index']);
+    Route::resource('posts.comments', CommentController::class)->except(['create', 'show', 'index']);
     Route::resource('posts', PostController::class);
     Route::post('/like', [LikeController::class, 'store'])->name('user.like');
     Route::delete('/unlike', [LikeController::class, 'destroy'])->name('user.unlike');
+
+    Route::get('/list-post/{type}', [PostController::class, 'showList'])->name('posts.list');
 
 });
 

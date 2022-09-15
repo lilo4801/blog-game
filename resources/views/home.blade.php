@@ -19,6 +19,24 @@
                         </form>
 
                     </div>
+                    <div class="card-footer" style="display:flex;justify-content: space-around;">
+
+                        <form action="{{route('posts.list',\App\Enums\PostType::BY_FOLLOWING_USER)}}" method="get">
+                            @csrf
+                            <input type="submit" class="btn btn-primary" value="Posts with following">
+                        </form>
+
+                        <form action="{{route('posts.list',\App\Enums\PostType::BY_FAVORITE_GAME)}}" method="get">
+                            @csrf
+                            <input type="submit" class="btn btn-warning" value="Posts with favorite game">
+                        </form>
+
+                        <form action="{{route('posts.list',\App\Enums\PostType::BY_MY_POST)}}" method="get">
+                            @csrf
+                            <input type="submit" class="btn btn-danger" value="My posts">
+                        </form>
+
+                    </div>
                 </div>
             </div>
             @foreach($posts as $post)
@@ -83,6 +101,7 @@
                     </div>
                 </div>
             @endforeach
+            {{ $posts->links() }}
         </div>
     </div>
 @endsection

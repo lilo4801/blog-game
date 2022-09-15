@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Services\CommentService;
 use App\Services\GameService;
 use App\Services\PostService;
+use http\Env\Request;
 
 class PostController extends Controller
 {
@@ -70,6 +71,12 @@ class PostController extends Controller
     {
         $res = $this->postService->remove($id);
         return redirect()->route('posts.index')->with('msg', $res['message']);
+    }
+
+    public function showList($id)
+    {
+        $res = $this->postService->findPostsBy($id);
+        return view('home')->with('posts', $res);
     }
 
 }
