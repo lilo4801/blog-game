@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,9 +13,12 @@ class HomeController extends Controller
      *
      * @return void
      */
+    protected ReportService $reportService;
+
     public function __construct()
     {
-      //  $this->middleware('auth');
+        $this->reportService = new ReportService();
+        //  $this->middleware('auth');
     }
 
     /**
@@ -23,6 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
+        return view('admin.home')->with('reports', $this->reportService->reports());
     }
 }
