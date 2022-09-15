@@ -25,7 +25,13 @@ class UserController extends Controller
 
     public function show($id)
     {
-        return view('user.profile')->with('user', $this->userService->find($id))
+        $user = $this->userService->find($id);
+
+        if (!$user) {
+            abort(404);
+        }
+
+      return view('user.profile')->with('user', $this->userService->find($id))
             ->with('favoriteGames', $this->favoriteGameService->findFGamesbyUserId($id))
             ->with('follow', $this->followService->find($id));
     }

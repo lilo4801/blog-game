@@ -16,16 +16,13 @@ class UserService extends GeneralService
     public function updateImg(array $data): array
     {
         try {
-            if (isset($data['avatar'])) {
-                $result = User::where('id', Auth::user()->id)->update([
-                    'avatar' => $this->hanldeFileAndGetFileName($data['avatar'], USER_DIR),
-                ]);
+            data_get($data, 'avatar') &&
+            data_set($data, 'avatar', $this->hanldeFileAndGetFileName(data_get($data, 'avatar'), USER_DIR));
 
-                if (!$result) {
-                    return ['success' => false, 'message' => __('User not found')];
-                }
-            } else {
-                return ['success' => false, 'message' => __('Image is empty')];
+            $result = User::where('id', Auth::user()->id)->update($data);
+
+            if (!$result) {
+                return ['success' => false, 'message' => __('User not found')];
             }
 
             return ['success' => true, 'message' => __('User has been updated')];
