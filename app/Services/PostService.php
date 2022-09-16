@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Enums\PostType;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ class PostService extends GeneralService
 {
     public function posts()
     {
-        return Post::with('game', 'user')->get();
+        return Post::with('game', 'user')->paginate(3);
     }
 
     public function create(array $data): array
@@ -70,4 +71,38 @@ class PostService extends GeneralService
             return ['success' => false, 'message' => __('Failed to remove Post')];
         }
     }
+
+    /**
+     * @param $type
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
+    public function getPostsByType(int $type)
+    {
+        $builder = Post::with('game', 'user')->orderBy('created_at', 'desc');
+
+        if ($type === PostType::BY_FOLLOWING_USER) {
+            $userIdList = Auth::user()->follows()->get()->map(function ($follow) {
+                return $follow->user_id2;
+            });
+
+            $builder->whereIn('user_id', $userIdList);
+        }
+
+        if ($type === PostType::BY_FAVORITE_GAME) {
+            $gameIdList = Auth::user()->favoriteGames()->get()->map(function ($game) {
+                return $game->game_id;
+            });
+            $builder->whereIn('game_id', $gameIdList);
+
+        }
+        if ($type === PostType::BY_MY_POST) {
+
+            $builder->whereIn('user_id', [Auth::user()->id]);
+
+        }
+
+        return $builder->paginate(3);
+    }
+
+
 }
