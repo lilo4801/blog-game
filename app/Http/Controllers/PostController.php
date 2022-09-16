@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RemovePostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Services\CommentService;
 use App\Services\GameService;
 use App\Services\PostService;
-use http\Env\Request;
 
 class PostController extends Controller
 {
@@ -19,7 +17,6 @@ class PostController extends Controller
     {
         $this->postService = new PostService();
         $this->gameService = new GameService();
-
     }
 
     public function index()
@@ -73,9 +70,9 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('msg', $res['message']);
     }
 
-    public function showList($id)
+    public function showList($type)
     {
-        $res = $this->postService->findPostsBy($id);
+        $res = $this->postService->getPostsByType($type);
         return view('home')->with('posts', $res);
     }
 

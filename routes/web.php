@@ -45,10 +45,9 @@ Route::middleware(['user'])->group(function () {
     Route::post('/like', [LikeController::class, 'store'])->name('user.like');
     Route::delete('/unlike', [LikeController::class, 'destroy'])->name('user.unlike');
 
-    Route::get('/list-post/{type}', [PostController::class, 'showList'])->name('posts.list');
+    Route::get('/list-post/{type}', [PostController::class, 'showList'])->name('posts.list')
+        ->where('type', '[0-9]+');
 
 });
-
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 

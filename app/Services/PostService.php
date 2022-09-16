@@ -76,25 +76,32 @@ class PostService extends GeneralService
      * @param $type
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function findPostsBy($type)
+    public function getPostsByType(int $type)
     {
-        if (isset($type) && is_numeric($type) && (int)$type === PostType::BY_FOLLOWING_USER) {
+        $builder = Post::with('game', 'user')->orderBy('created_at', 'desc');
+
+        if ($type === PostType::BY_FOLLOWING_USER) {
             $userIdList = Auth::user()->follows()->get()->map(function ($follow) {
                 return $follow->user_id2;
             });
 
-            return Post::with('game', 'user')->whereIn('user_id', $userIdList)->orderBy('created_at', 'desc')->paginate(3);
+            $builder->whereIn('user_id', $userIdList);
         }
 
-        if (isset($type) && is_numeric($type) && (int)$type === PostType::BY_FAVORITE_GAME) {
+        if ($type === PostType::BY_FAVORITE_GAME) {
             $gameIdList = Auth::user()->favoriteGames()->get()->map(function ($game) {
                 return $game->game_id;
             });
+            $builder->whereIn('game_id', $gameIdList);
 
-            return Post::with('game', 'user')->whereIn('game_id', $gameIdList)->orderBy('created_at', 'desc')->paginate(3);
+        }
+        if ($type === PostType::BY_MY_POST) {
+
+            $builder->whereIn('user_id', [Auth::user()->id]);
+
         }
 
-        return Post::with('game', 'user')->whereIn('user_id', [Auth::user()->id])->orderBy('created_at', 'desc')->paginate(3);
+        return $builder->paginate(3);
     }
 
 

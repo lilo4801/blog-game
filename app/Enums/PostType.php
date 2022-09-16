@@ -11,7 +11,7 @@ use BenSampo\Enum\Enum;
  */
 final class PostType extends Enum
 {
-    public const BY_FAVORITE_GAME = 0;
-    public const BY_FOLLOWING_USER = 1;
-    public const BY_MY_POST = 2;
+    public const BY_FAVORITE_GAME = 1;
+    public const BY_FOLLOWING_USER = 2;
+    public const BY_MY_POST = 3;
 }
