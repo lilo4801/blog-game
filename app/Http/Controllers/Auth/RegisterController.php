@@ -55,6 +55,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'fullname' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'max:50', 'confirmed'],
         ]);
@@ -70,6 +71,7 @@ class RegisterController extends Controller
     {
         return User::create([
             'fullname' => $data['fullname'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -83,7 +85,7 @@ class RegisterController extends Controller
 
         dispatch(new SendWelcomeEmail($user));
 
-        //return $this->registered($request, $user)?: redirect($this->redirectPath());
+
         return redirect()->route('home');
     }
 }
