@@ -23,7 +23,7 @@ class LikeController extends Controller
 
         if ($res['success']) {
             SendLikeEmail::dispatch(Auth::user(), $request->validated()['post_id'])
-                ->onConnection('redis')->onQueue('like');
+                ->onQueue('like');
         }
 
         return redirect()->route('home')->with('msg', $res['message']);

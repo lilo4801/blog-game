@@ -28,9 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Redis::set('name', '12');
-
-
         return view('home')->with('posts', $this->postService->posts());
     }
 }
