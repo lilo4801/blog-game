@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RemoveCommentRequest;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use App\Jobs\SendNewCommentPostEmail;
 use App\Services\CommentService;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -30,6 +32,11 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, $post_id)
     {
         $res = $this->commentService->create($request->validated(), $post_id);
+
+        if ($res['success']) {
+            SendNewCommentPostEmail::dispatch($post_id, Auth::user())->onQueue('comment');
+        }
+
         return redirect()->route('posts.show', $post_id)->with('msg', $res['message']);
     }
 
