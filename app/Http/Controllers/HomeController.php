@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\PostService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+
 
 class HomeController extends Controller
 {
@@ -27,8 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-
         return view('home')->with('posts', $this->postService->posts());
     }
 }
