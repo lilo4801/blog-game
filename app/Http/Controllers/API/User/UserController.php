@@ -1,27 +1,25 @@
 <?php
 
-
 namespace App\Http\Controllers\API\User;
 
-
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseApiController;
 use App\Services\API\User\UserService;
 
-class UserController extends Controller
+class UserController extends BaseApiController
 {
     protected UserService $userService;
-    protected $statusCode;
 
     public function __construct()
     {
         $this->userService = new UserService();
-        $this->statusCode = 200;
     }
 
     public function show($id)
     {
-        $data = $this->userService->find($id);
+        if (!($data = $this->userService->find($id))) {
+            return $this->sendError('User not found');
+        }
 
-        return response()->json($data, $this->statusCode);
+        return $this->sendSuccess($data);
     }
 }

@@ -8,16 +8,19 @@ use App\Models\Post;
 
 class PostService
 {
-    public function getRecentPost()
+    /**
+     * @return array
+     */
+    public function getRecentPost(int $day = 1): array
     {
-        $posts = Post::with('user', 'game')->whereRaw('datediff(now(), created_at) <= ?', [1])->get();
+        $posts = Post::with('user', 'game')->whereRaw('datediff(now(), created_at) <= ?', [$day])->get();
         return [
-            'data' => $posts->map(function ($post) {
+            $posts->map(function ($post) {
                 return [
                     'title' => $post->title,
                     'content' => $post->content,
                     'imageUrl' => $post->image,
-                    'game' => $post->game->toArray(),
+                    'game' => $post->game->title,
                     'authorName' => $post->user->fullname,
                 ];
             })->toArray(),

@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Http\Controllers\API\User;
 
-
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseApiController;
 use App\Services\API\User\PostService;
 
-class PostController extends Controller
+class PostController extends BaseApiController
 {
     protected PostService $postService;
     protected $statusCode;
@@ -21,7 +19,6 @@ class PostController extends Controller
     public function getRecentPost($page = 1)
     {
         $data = $this->postService->getRecentPost();
-
-        return response()->json($data, $this->statusCode);
+        return $this->sendSuccess($data);
     }
 }
