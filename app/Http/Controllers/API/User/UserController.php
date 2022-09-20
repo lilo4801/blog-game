@@ -17,7 +17,7 @@ class UserController extends BaseApiController
     public function show($id)
     {
         if (!($data = $this->userService->find($id))) {
-            return $this->sendError('User not found');
+            return $this->sendError('User not found', [], 404);
         }
 
         return $this->sendSuccess($data);

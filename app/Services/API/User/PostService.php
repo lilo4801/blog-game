@@ -5,6 +5,7 @@ namespace App\Services\API\User;
 
 
 use App\Models\Post;
+use Carbon\Carbon;
 
 class PostService
 {
@@ -13,7 +14,7 @@ class PostService
      */
     public function getRecentPost(int $day = 1): array
     {
-        $posts = Post::with('user', 'game')->whereRaw('datediff(now(), created_at) <= ?', [$day])->get();
+        $posts = Post::with('user', 'game')->where('created_at', '>=', Carbon::now()->subDays($day))->get();
         return [
             $posts->map(function ($post) {
                 return [
